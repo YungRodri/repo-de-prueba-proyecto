@@ -32,14 +32,16 @@ public class InterfazConsola {
             String opcion = scanner.nextLine().trim();
 
             switch (opcion) {
-                case "1": opAgregarAlumno();       break;
-                case "2": opBuscarAlumno();        break;
-                case "3": opActualizarAlumno();    break;
-                case "4": opEliminarAlumno();      break;
-                case "5": opRegistrarAsistencia(); break;
-                case "6": opListarAlumnos();       break;
-                case "7": opFiltrarInasistencias();break;
-                case "8": continuar = false; opGuardarYSalir(); break;
+                case "1": opAgregarAlumno();          break;
+                case "2": opBuscarAlumno();           break;
+                case "3": opActualizarAlumno();       break;
+                case "4": opEliminarAlumno();         break;
+                case "5": opRegistrarAsistencia();    break;
+                case "6": opEliminarAsistencia();     break;
+                case "7": opModificarFechaAsistencia();break;
+                case "8": opListarAlumnos();          break;
+                case "9": opFiltrarInasistencias();   break;
+                case "10": continuar = false; opGuardarYSalir(); break;
                 default:
                     System.out.println("[!] Opción no válida. Intente de nuevo.");
             }
@@ -51,15 +53,20 @@ public class InterfazConsola {
     // -----------------------------------------------------------------------
     private void mostrarMenu() {
         System.out.println("\n--- MENÚ PRINCIPAL ---");
-        System.out.println("1. Agregar alumno");
-        System.out.println("2. Buscar alumno y ver historial");
-        System.out.println("3. Actualizar datos de alumno");
-        System.out.println("4. Eliminar alumno");
-        System.out.println("5. Registrar asistencia");
-        System.out.println("6. Listar todos los alumnos");
-        System.out.println("7. Filtrar alumnos por inasistencias (SIA-9)");
-        System.out.println("8. Guardar y Salir");
-        System.out.print("Seleccione una opción: ");
+        System.out.println(" == Alumnos (TreeMap) ==");
+        System.out.println("1.  Agregar alumno");
+        System.out.println("2.  Buscar alumno y ver historial");
+        System.out.println("3.  Actualizar datos de alumno");
+        System.out.println("4.  Eliminar alumno");
+        System.out.println(" == Asistencias (ArrayList) ==");
+        System.out.println("5.  Registrar asistencia");
+        System.out.println("6.  Eliminar asistencia de un alumno");
+        System.out.println("7.  Modificar fecha de una asistencia");
+        System.out.println(" == Reportes ==");
+        System.out.println("8.  Listar todos los alumnos");
+        System.out.println("9.  Filtrar alumnos por inasistencias (SIA-9)");
+        System.out.println("10. Guardar y Salir");
+        System.out.print("Selección: ");
     }
 
     // -----------------------------------------------------------------------
@@ -199,7 +206,70 @@ public class InterfazConsola {
     }
 
     // -----------------------------------------------------------------------
-    // Listar todos los alumnos del TreeMap
+    // SIA-8 — Eliminar asistencia del ArrayList de un alumno
+    // -----------------------------------------------------------------------
+    private void opEliminarAsistencia() {
+        System.out.println("\n-- Eliminar Asistencia --");
+        System.out.print("RUT del alumno: ");
+        String rut = scanner.nextLine();
+        // Primero mostramos el historial para que el usuario elija por número
+        try {
+            Estudiante est = controlador.buscarAlumno(rut);
+            if (est.getHistorial().isEmpty()) {
+                System.out.println("  (Este alumno no tiene asistencias registradas)");
+                return;
+            }
+            System.out.println("Historial actual:");
+            for (int i = 0; i < est.getHistorial().size(); i++) {
+                System.out.println("  " + (i + 1) + ". " + est.getHistorial().get(i).getResumen());
+            }
+            System.out.print("Número de asistencia a eliminar: ");
+            String idxStr = scanner.nextLine().trim();
+            int idx = Integer.parseInt(idxStr) - 1; // convertir a índice 0-based
+            controlador.eliminarAsistencia(rut, idx);
+            System.out.println("[OK] Asistencia eliminada correctamente.");
+        } catch (RutNoEncontradoException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        } catch (FormatoAsistenciaInvalidoException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("[ERROR] Ingrese un número válido.");
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // SIA-8 — Modificar fecha de una asistencia del ArrayList
+    // -----------------------------------------------------------------------
+    private void opModificarFechaAsistencia() {
+        System.out.println("\n-- Modificar Fecha de Asistencia --");
+        System.out.print("RUT del alumno: ");
+        String rut = scanner.nextLine();
+        try {
+            Estudiante est = controlador.buscarAlumno(rut);
+            if (est.getHistorial().isEmpty()) {
+                System.out.println("  (Este alumno no tiene asistencias registradas)");
+                return;
+            }
+            System.out.println("Historial actual:");
+            for (int i = 0; i < est.getHistorial().size(); i++) {
+                System.out.println("  " + (i + 1) + ". " + est.getHistorial().get(i).getResumen());
+            }
+            System.out.print("Número de asistencia a modificar: ");
+            String idxStr = scanner.nextLine().trim();
+            int idx = Integer.parseInt(idxStr) - 1;
+            System.out.print("Nueva fecha (dd/MM/yyyy): ");
+            String nuevaFecha = scanner.nextLine();
+            controlador.modificarFechaAsistencia(rut, idx, nuevaFecha);
+            System.out.println("[OK] Fecha actualizada a: " + nuevaFecha);
+        } catch (RutNoEncontradoException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        } catch (FormatoAsistenciaInvalidoException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("[ERROR] Ingrese un número válido.");
+        }
+    }
+
     // -----------------------------------------------------------------------
     private void opListarAlumnos() {
         System.out.println("\n-- Listado de Alumnos (ordenado por RUT) --");

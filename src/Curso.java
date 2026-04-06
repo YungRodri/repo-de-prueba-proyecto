@@ -27,10 +27,19 @@ public class Curso {
     public TreeMap<String, Estudiante> getEstudiantes() { return estudiantes; }
 
     /**
-     * Agrega un Estudiante al TreeMap usando su RUT como clave.
+     * SIA-5 [Overload 1] — Agrega un Estudiante al TreeMap usando su RUT como clave.
      */
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantes.put(estudiante.getRut(), estudiante);
+    }
+
+    /**
+     * SIA-5 [Overload 2] — Agrega un Estudiante creándolo directamente desde sus datos.
+     * Crea el objeto Estudiante internamente y lo inserta en el TreeMap.
+     */
+    public void agregarEstudiante(String rut, String nombre, String apellidos) {
+        Estudiante nuevo = new Estudiante(rut.trim(), nombre.trim(), apellidos.trim());
+        estudiantes.put(nuevo.getRut(), nuevo);
     }
 
     /**

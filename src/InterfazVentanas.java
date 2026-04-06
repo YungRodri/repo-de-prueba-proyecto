@@ -26,9 +26,11 @@ public class InterfazVentanas {
                 "3. Actualizar datos de alumno",
                 "4. Eliminar alumno",
                 "5. Registrar asistencia",
-                "6. Listar todos los alumnos",
-                "7. Filtrar por inasistencias",
-                "8. Guardar y Salir"
+                "6. Eliminar asistencia de un alumno",
+                "7. Modificar fecha de una asistencia",
+                "8. Listar todos los alumnos",
+                "9. Filtrar por inasistencias",
+                "10. Guardar y Salir"
             };
             int seleccion = JOptionPane.showOptionDialog(
                 null,
@@ -41,14 +43,16 @@ public class InterfazVentanas {
                 opciones[0]);
 
             switch (seleccion) {
-                case 0: opAgregarAlumno();       break;
-                case 1: opBuscarAlumno();        break;
-                case 2: opActualizarAlumno();    break;
-                case 3: opEliminarAlumno();      break;
-                case 4: opRegistrarAsistencia(); break;
-                case 5: opListarAlumnos();       break;
-                case 6: opFiltrarInasistencias();break;
-                case 7:
+                case 0: opAgregarAlumno();          break;
+                case 1: opBuscarAlumno();           break;
+                case 2: opActualizarAlumno();       break;
+                case 3: opEliminarAlumno();         break;
+                case 4: opRegistrarAsistencia();    break;
+                case 5: opEliminarAsistencia();     break;
+                case 6: opModificarFechaAsistencia();break;
+                case 7: opListarAlumnos();          break;
+                case 8: opFiltrarInasistencias();   break;
+                case 9:
                 case JOptionPane.CLOSED_OPTION:
                     continuar = false;
                     opGuardarYSalir();
@@ -204,6 +208,68 @@ public class InterfazVentanas {
             sb.append(i + 1).append(". ").append(lista.get(i).toString()).append("\n");
         }
         JOptionPane.showMessageDialog(null, sb.toString(), "Listado de Alumnos", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // -----------------------------------------------------------------------
+    // SIA-8 — Eliminar asistencia del ArrayList de un alumno
+    // -----------------------------------------------------------------------
+    private void opEliminarAsistencia() {
+        String rut = JOptionPane.showInputDialog(null, "RUT del alumno:", "Eliminar Asistencia", JOptionPane.PLAIN_MESSAGE);
+        if (rut == null) return;
+        try {
+            Estudiante est = controlador.buscarAlumno(rut);
+            if (est.getHistorial().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Este alumno no tiene asistencias registradas.", "Sin Registros", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            StringBuilder sb = new StringBuilder("Seleccione la asistencia a eliminar:\n");
+            for (int i = 0; i < est.getHistorial().size(); i++) {
+                sb.append("  ").append(i + 1).append(". ").append(est.getHistorial().get(i).getResumen()).append("\n");
+            }
+            String idxStr = JOptionPane.showInputDialog(null, sb.toString(), "Eliminar Asistencia", JOptionPane.PLAIN_MESSAGE);
+            if (idxStr == null) return;
+            int idx = Integer.parseInt(idxStr.trim()) - 1;
+            controlador.eliminarAsistencia(rut, idx);
+            JOptionPane.showMessageDialog(null, "Asistencia eliminada correctamente.", "OK", JOptionPane.INFORMATION_MESSAGE);
+        } catch (RutNoEncontradoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (FormatoAsistenciaInvalidoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // SIA-8 — Modificar fecha de una asistencia del ArrayList
+    // -----------------------------------------------------------------------
+    private void opModificarFechaAsistencia() {
+        String rut = JOptionPane.showInputDialog(null, "RUT del alumno:", "Modificar Fecha Asistencia", JOptionPane.PLAIN_MESSAGE);
+        if (rut == null) return;
+        try {
+            Estudiante est = controlador.buscarAlumno(rut);
+            if (est.getHistorial().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Este alumno no tiene asistencias registradas.", "Sin Registros", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            StringBuilder sb = new StringBuilder("Seleccione la asistencia a modificar:\n");
+            for (int i = 0; i < est.getHistorial().size(); i++) {
+                sb.append("  ").append(i + 1).append(". ").append(est.getHistorial().get(i).getResumen()).append("\n");
+            }
+            String idxStr = JOptionPane.showInputDialog(null, sb.toString(), "Modificar Fecha", JOptionPane.PLAIN_MESSAGE);
+            if (idxStr == null) return;
+            int idx = Integer.parseInt(idxStr.trim()) - 1;
+            String nuevaFecha = JOptionPane.showInputDialog(null, "Nueva fecha (dd/MM/yyyy):", "Modificar Fecha", JOptionPane.PLAIN_MESSAGE);
+            if (nuevaFecha == null) return;
+            controlador.modificarFechaAsistencia(rut, idx, nuevaFecha);
+            JOptionPane.showMessageDialog(null, "Fecha actualizada a: " + nuevaFecha, "OK", JOptionPane.INFORMATION_MESSAGE);
+        } catch (RutNoEncontradoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (FormatoAsistenciaInvalidoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // -----------------------------------------------------------------------

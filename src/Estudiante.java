@@ -27,6 +27,40 @@ public class Estudiante extends Persona {
     }
 
     /**
+     * SIA-8 — Elimina una asistencia del historial por su posición (índice).
+     * Retorna true si el índice es válido y se eliminó, false si está fuera de rango.
+     */
+    public boolean eliminarAsistencia(int indice) {
+        if (indice >= 0 && indice < historial.size()) {
+            historial.remove(indice);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * SIA-8 — Modifica la fecha de una asistencia existente en el historial.
+     * Retorna true si el índice es válido y se modificó.
+     */
+    public boolean modificarFechaAsistencia(int indice, String nuevaFecha) {
+        if (indice >= 0 && indice < historial.size()) {
+            historial.get(indice).setFecha(nuevaFecha);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retorna la asistencia en la posición indicada, o null si el índice es inválido.
+     */
+    public Asistencia getAsistencia(int indice) {
+        if (indice >= 0 && indice < historial.size()) {
+            return historial.get(indice);
+        }
+        return null;
+    }
+
+    /**
      * Cuenta solo las InasistenciaExtraordinaria en un mes dado.
      * El mes debe estar en formato "MM" (ej: "03" para marzo).
      * Retorna la cantidad de inasistencias extraordinarias encontradas.

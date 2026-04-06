@@ -228,6 +228,43 @@ public class Controlador {
     // Utilidad interna
     // =========================================================================
 
+    // =========================================================================
+    // SIA-7/SIA-8 — CRUD para la colección anidada ArrayList<Asistencia>
+    // =========================================================================
+
+    /**
+     * SIA-8 — Elimina una asistencia del historial de un alumno por su índice.
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si el índice es inválido.
+     */
+    public void eliminarAsistencia(String rut, int indice)
+            throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
+        Estudiante estudiante = buscarAlumno(rut);
+        boolean ok = estudiante.eliminarAsistencia(indice);
+        if (!ok) {
+            throw new FormatoAsistenciaInvalidoException("índice",
+                    String.valueOf(indice) + " (fuera de rango 0-"
+                    + (estudiante.getHistorial().size() - 1) + ")");
+        }
+    }
+
+    /**
+     * SIA-8 — Modifica la fecha de una asistencia existente en el historial.
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si el índice o fecha son inválidos.
+     */
+    public void modificarFechaAsistencia(String rut, int indice, String nuevaFecha)
+            throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
+        validarCampo("nuevaFecha", nuevaFecha);
+        Estudiante estudiante = buscarAlumno(rut);
+        boolean ok = estudiante.modificarFechaAsistencia(indice, nuevaFecha.trim());
+        if (!ok) {
+            throw new FormatoAsistenciaInvalidoException("índice",
+                    String.valueOf(indice) + " (fuera de rango 0-"
+                    + (estudiante.getHistorial().size() - 1) + ")");
+        }
+    }
+
     /**
      * Valida que un campo no sea nulo ni esté vacío.
      * Lanza FormatoAsistenciaInvalidoException si falla.
