@@ -41,12 +41,13 @@ Al ejecutar, el programa preguntará:
 
 ---
 
-### Opción B — Desde IntelliJ IDEA
+### Opción B — Desde Apache NetBeans
 
-1. `File → Open` → seleccionar la carpeta del proyecto
-2. Clic derecho en la carpeta `src/` → **Mark Directory as → Sources Root**
-3. `File → Project Structure → SDK` → seleccionar un JDK instalado
-4. Abrir `Main.java` y pulsar el botón ▶ **Run**
+1. `File → New Project` → seleccionar **Java → Java Project with Existing Sources** → `Next`
+2. En **Project Location**, seleccionar la carpeta del proyecto → `Next`
+3. En la pestaña **Source Package Folders**, hacer clic en **Add Folder...** y seleccionar la carpeta `src/` → `Finish`
+4. Clic derecho en el proyecto (panel izquierdo) → **Properties → Libraries** → verificar que aparece un JDK seleccionado en **Java Platform**
+5. Clic derecho en `Main.java` → **Run File** (o pulsar `Shift + F6`)
 
 ---
 
