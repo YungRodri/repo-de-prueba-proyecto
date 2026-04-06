@@ -32,15 +32,28 @@ public class InterfazVentanas {
                 "9. Filtrar por inasistencias",
                 "10. Guardar y Salir"
             };
-            int seleccion = JOptionPane.showOptionDialog(
+            String seleccionStr = (String) JOptionPane.showInputDialog(
                 null,
-                "Curso: " + controlador.getCurso().getNombre(),
+                "Curso: " + controlador.getCurso().getNombre() + "\nSeleccione una opción:",
                 "SIA — Menú Principal",
-                JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 opciones,
                 opciones[0]);
+
+            // Si cierra la ventana o apreta cancelar
+            if (seleccionStr == null) {
+                seleccionStr = "10. Guardar y Salir";
+            }
+
+            // Buscar el índice seleccionado
+            int seleccion = 9; // Por defecto Guardar y Salir
+            for (int i = 0; i < opciones.length; i++) {
+                if (opciones[i].equals(seleccionStr)) {
+                    seleccion = i;
+                    break;
+                }
+            }
 
             switch (seleccion) {
                 case 0: opAgregarAlumno();          break;
