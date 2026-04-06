@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 /**
  * SIA-3/SIA-5/SIA-7/SIA-8/SIA-9 — Controlador central del sistema SIA.
@@ -60,9 +59,7 @@ public class Controlador {
 
     /**
      * Inscribe un nuevo alumno en el TreeMap del Curso.
-     *
-     * @throws RutNoEncontradoException   no aplica en creación, pero se valida RUT vacío
-     * @throws FormatoAsistenciaInvalidoException si algún campo requerido está vacío
+     * Lanza FormatoAsistenciaInvalidoException si algún campo requerido está vacío.
      */
     public void inscribirAlumno(String rut, String nombre, String apellidos)
             throws FormatoAsistenciaInvalidoException {
@@ -88,10 +85,7 @@ public class Controlador {
 
     /**
      * Busca un alumno en el TreeMap por RUT.
-     *
-     * @param rut RUT del alumno a buscar
-     * @return el Estudiante encontrado
-     * @throws RutNoEncontradoException si el .get() del TreeMap retorna null
+     * Lanza RutNoEncontradoException si el .get() del TreeMap retorna null.
      */
     public Estudiante buscarAlumno(String rut) throws RutNoEncontradoException {
         // SIA-4: búsqueda en el TreeMap
@@ -110,12 +104,8 @@ public class Controlador {
 
     /**
      * Actualiza el nombre y apellidos de un alumno existente.
-     *
-     * @param rut         RUT del alumno a modificar
-     * @param nuevoNombre nuevo nombre (dejar vacío para no cambiar)
-     * @param nuevosApellidos nuevos apellidos (dejar vacío para no cambiar)
-     * @throws RutNoEncontradoException           si el alumno no existe
-     * @throws FormatoAsistenciaInvalidoException si ambos valores están vacíos
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si ambos valores están vacíos.
      */
     public void actualizarAlumno(String rut, String nuevoNombre, String nuevosApellidos)
             throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
@@ -142,9 +132,7 @@ public class Controlador {
 
     /**
      * Elimina un alumno del TreeMap por su RUT.
-     *
-     * @param rut RUT del alumno a eliminar
-     * @throws RutNoEncontradoException si el alumno no existe en el mapa
+     * Lanza RutNoEncontradoException si el alumno no existe en el mapa.
      */
     public void eliminarAlumno(String rut) throws RutNoEncontradoException {
         boolean eliminado = curso.eliminarEstudiante(rut.trim());
@@ -159,11 +147,10 @@ public class Controlador {
 
     /**
      * [Overload 1] Registra una AsistenciaNormal.
-     * Se llama con rut + fecha.
+     * Se llama con rut + fecha + presente (boolean).
      * SIA-5: misma firma base, sobrecargada con distintos parámetros.
-     *
-     * @throws RutNoEncontradoException si el alumno no existe
-     * @throws FormatoAsistenciaInvalidoException si la fecha está vacía
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si la fecha está vacía.
      */
     public void registrarAsistencia(String rut, String fecha, boolean presente)
             throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
@@ -176,9 +163,8 @@ public class Controlador {
     /**
      * [Overload 2] Registra una InasistenciaExtraordinaria.
      * SIA-5: sobrecarga con parámetro extra "motivo".
-     *
-     * @throws RutNoEncontradoException si el alumno no existe
-     * @throws FormatoAsistenciaInvalidoException si fecha o motivo están vacíos
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si fecha o motivo están vacíos.
      */
     public void registrarAsistencia(String rut, String fecha, String motivo)
             throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
@@ -192,9 +178,8 @@ public class Controlador {
     /**
      * [Overload 3] Registra una SalidaAnticipada.
      * SIA-5: sobrecarga con parámetros fecha + hora (dos Strings).
-     *
-     * @throws RutNoEncontradoException si el alumno no existe
-     * @throws FormatoAsistenciaInvalidoException si fecha u hora están vacíos
+     * Lanza RutNoEncontradoException si el alumno no existe.
+     * Lanza FormatoAsistenciaInvalidoException si fecha u hora están vacíos.
      */
     public void registrarAsistencia(String rut, String fecha, String hora, boolean esSalida)
             throws RutNoEncontradoException, FormatoAsistenciaInvalidoException {
@@ -211,11 +196,9 @@ public class Controlador {
 
     /**
      * Filtra alumnos que superen un número mínimo de inasistencias en un mes.
+     * El mes debe estar en formato "MM" (ej: "04" para abril).
      * Recorre el TreeMap e inspecciona el ArrayList anidado de cada Estudiante.
-     *
-     * @param minInasistencias número mínimo de inasistencias (exclusive)
-     * @param mes              mes en formato "MM" (ej: "04" para abril)
-     * @return ArrayList con los Estudiantes que cumplen el criterio
+     * Retorna un ArrayList con los Estudiantes que cumplen el criterio.
      */
     public ArrayList<Estudiante> filtrarPorInasistencias(int minInasistencias, String mes) {
         ArrayList<Estudiante> resultado = new ArrayList<Estudiante>();

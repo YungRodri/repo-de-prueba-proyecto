@@ -24,9 +24,6 @@ public class GestorArchivos {
     /**
      * Lee el archivo CSV e inscribe los estudiantes encontrados en el Curso.
      * Si el archivo no existe, se ignora silenciosamente (primer uso).
-     *
-     * @param curso          el Curso cuyo TreeMap se llenará
-     * @param rutaArchivo    ruta del archivo CSV (ej: "alumnos.csv")
      */
     public static void cargarEstudiantes(Curso curso, String rutaArchivo) {
         BufferedReader reader = null;
@@ -72,9 +69,6 @@ public class GestorArchivos {
     /**
      * Sobrescribe el archivo CSV con el estado actual del TreeMap del Curso.
      * Se llama al salir del programa para guardar los cambios.
-     *
-     * @param curso          el Curso cuyo TreeMap se exportará
-     * @param rutaArchivo    ruta destino del CSV
      */
     public static void guardarEstudiantes(Curso curso, String rutaArchivo) {
         BufferedWriter writer = null;

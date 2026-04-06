@@ -28,7 +28,6 @@ public class Curso {
 
     /**
      * Agrega un Estudiante al TreeMap usando su RUT como clave.
-     * @param estudiante el alumno a insertar
      */
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantes.put(estudiante.getRut(), estudiante);
@@ -36,8 +35,7 @@ public class Curso {
 
     /**
      * Busca un Estudiante en el TreeMap por su RUT.
-     * @param rut clave de búsqueda
-     * @return el Estudiante, o null si no existe
+     * Retorna null si el RUT no existe.
      */
     public Estudiante buscarEstudiante(String rut) {
         return estudiantes.get(rut);
@@ -45,8 +43,7 @@ public class Curso {
 
     /**
      * Elimina un Estudiante del TreeMap por su RUT.
-     * @param rut clave del alumno
-     * @return true si fue eliminado, false si no existía
+     * Retorna true si fue eliminado, false si no existía.
      */
     public boolean eliminarEstudiante(String rut) {
         if (estudiantes.containsKey(rut)) {

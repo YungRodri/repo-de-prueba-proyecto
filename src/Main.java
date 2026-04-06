@@ -47,8 +47,7 @@ public class Main {
     /**
      * SIA-10 — Solicita al usuario que elija la interfaz de usuario.
      * Primero intenta con JOptionPane; si falla (entorno sin GUI), usa Scanner.
-     *
-     * @return 1 para consola, 2 para ventanas gráficas
+     * Retorna 1 para consola o 2 para ventanas gráficas.
      */
     private static int elegirInterfaz() {
         try {
@@ -78,6 +77,7 @@ public class Main {
             System.out.println("  2. Ventanas (JOptionPane)");
             System.out.print("Opción: ");
             String resp = sc.nextLine().trim();
+            sc.close();
             return "2".equals(resp) ? 2 : 1;
         }
     }

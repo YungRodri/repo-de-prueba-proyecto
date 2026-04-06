@@ -16,7 +16,7 @@ public class Estudiante extends Persona {
 
     /**
      * Agrega un registro de asistencia al historial del alumno.
-     * @param asistencia objeto polimórfico (puede ser cualquier subclase de Asistencia)
+     * El objeto puede ser cualquier subclase de Asistencia (polimorfismo).
      */
     public void agregarAsistencia(Asistencia asistencia) {
         historial.add(asistencia);
@@ -28,9 +28,9 @@ public class Estudiante extends Persona {
 
     /**
      * Cuenta solo las InasistenciaExtraordinaria en un mes dado.
+     * El mes debe estar en formato "MM" (ej: "03" para marzo).
+     * Retorna la cantidad de inasistencias extraordinarias encontradas.
      * Usado en SIA-9 (filtros).
-     * @param mes número de mes en formato "MM" (ej: "03" para marzo)
-     * @return cantidad de inasistencias extraordinarias en ese mes
      */
     public int contarInasistenciasEnMes(String mes) {
         int contador = 0;
