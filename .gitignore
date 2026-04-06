@@ -1,0 +1,13 @@
+# Archivos compilados de Java
+*.class
+bin/
+
+# Archivo de persistencia generado en runtime
+alumnos.csv
+
+# Archivos de IDEs
+.idea/
+*.iml
+.vscode/
+*.project
+*.classpath
